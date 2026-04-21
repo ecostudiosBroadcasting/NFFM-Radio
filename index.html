@@ -43,7 +43,7 @@
 
         h1 {
             margin: 0;
-            font-size: 2rem;
+            font-size: 2.2rem;
             font-weight: 800;
         }
 
@@ -120,18 +120,18 @@
 
     <script>
         function openPopup() {
-            // Die URL deines Streams
-            const streamUrl = "http://37.157.242.104:34275/;stream";
+            // Die URL deines Streams ohne Semikolon
+            const streamUrl = "http://37.157.242.104:34275/stream";
             
-            // Einstellungen für das Popup (Breite, Höhe, etc.)
-            const width = 400;
-            const height = 150;
+            // Popup-Einstellungen
+            const width = 450;
+            const height = 200;
             const left = (screen.width / 2) - (width / 2);
             const top = (screen.height / 2) - (height / 2);
             
             window.open(
                 streamUrl, 
-                "NFFM Player", 
+                "NFFM_Player", 
                 `width=${width},height=${height},top=${top},left=${left},scrollbars=no,resizable=no`
             );
         }
