@@ -1,8 +1,8 @@
 FROM debian:stable-slim
 
 RUN apt-get update && \
-    apt-get install -y icecast2 && \
-    apt-get clean
+    DEBIAN_FRONTEND=noninteractive apt-get install -y icecast2 && \
+    rm -rf /var/lib/apt/lists/*
 
 COPY icecast.xml /etc/icecast2/icecast.xml
 
