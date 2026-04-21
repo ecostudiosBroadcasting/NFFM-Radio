@@ -1,4 +1,6 @@
-app = "Es1"
+app = "ecostudios-radio-83927"
+
+primary_region = "ams"
 
 [build]
 
@@ -8,6 +10,8 @@ app = "Es1"
 
   [[services.ports]]
     port = 80
+    handlers = ["http"]
 
   [[services.ports]]
     port = 443
+    handlers = ["tls", "http"]
