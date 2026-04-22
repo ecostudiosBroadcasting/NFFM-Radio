@@ -13,92 +13,47 @@
             --text-dark: #333;
         }
 
-        body {
-            margin: 0;
-            font-family: 'Arial', sans-serif;
-            background-color: var(--bg-light);
-            color: var(--text-dark);
-        }
+        body { margin: 0; font-family: 'Arial', sans-serif; background-color: var(--bg-light); color: var(--text-dark); }
 
         /* HEADER */
-        header {
-            background-color: var(--white);
-            padding: 15px 20px;
-            display: flex;
-            align-items: center;
-            border-bottom: 1px solid #ddd;
-        }
-
+        header { background: var(--white); padding: 15px 20px; display: flex; align-items: center; border-bottom: 1px solid #ddd; }
         .header-logo { height: 50px; margin-right: 20px; }
         .station-name { font-size: 24px; font-weight: bold; color: var(--nffm-blue); text-transform: uppercase; }
 
-        /* NAVIGATION TABS */
-        .nav-bar {
-            background-color: var(--white);
-            border-bottom: 3px solid var(--nffm-red);
-            display: flex;
-            padding: 0 20px;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
-
-        .nav-tab {
-            padding: 15px 20px;
-            text-decoration: none;
-            color: var(--text-dark);
-            font-weight: bold;
-            font-size: 14px;
-            text-transform: uppercase;
-            cursor: pointer;
-            border: none;
-            background: none;
-            outline: none;
-        }
-
+        /* NAVIGATION */
+        .nav-bar { background: var(--white); border-bottom: 3px solid var(--nffm-red); display: flex; padding: 0 20px; position: sticky; top: 0; z-index: 100; }
+        .nav-tab { padding: 15px 20px; text-decoration: none; color: var(--text-dark); font-weight: bold; font-size: 14px; text-transform: uppercase; cursor: pointer; border: none; background: none; }
         .nav-tab.active { border-bottom: 4px solid var(--nffm-red); color: var(--nffm-red); }
 
-        /* CONTENT SECTIONS */
+        /* CONTENT */
         .tab-content { display: none; padding: 20px; max-width: 1100px; margin: 0 auto; }
         .tab-content.active { display: block; }
 
-        /* MAIN LAYOUT (HOME) */
-        .main-layout { display: grid; grid-template-columns: 2fr 1fr; gap: 20px; }
-        .hero-box { background: var(--white); box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+        /* HERO & PLAY */
+        .hero-box { background: var(--white); box-shadow: 0 4px 10px rgba(0,0,0,0.1); margin-bottom: 20px; }
         .hero-img-wrap { position: relative; height: 350px; background: #000; }
         .hero-img-wrap img { width: 100%; height: 100%; object-fit: cover; opacity: 0.7; }
-
-        .play-btn {
-            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
-            width: 80px; height: 80px; background: var(--nffm-red);
-            border-radius: 50%; border: 3px solid white; cursor: pointer;
-            display: flex; justify-content: center; align-items: center;
-        }
-
+        .play-btn { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 80px; height: 80px; background: var(--nffm-red); border-radius: 50%; border: 3px solid white; cursor: pointer; display: flex; justify-content: center; align-items: center; }
         .play-icon { width: 0; height: 0; border-top: 15px solid transparent; border-bottom: 15px solid transparent; border-left: 25px solid white; margin-left: 5px; }
         .info-pane { padding: 20px; background: var(--nffm-blue); color: white; }
 
-        /* LIVE TRAFFIC MAP STYLING */
-        .traffic-map-container {
-            width: 100%;
-            height: 500px;
-            background: #eee;
-            border-radius: 8px;
-            overflow: hidden;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        /* LIVE VERKEHR LISTE */
+        #traffic-list { list-style: none; padding: 0; }
+        .traffic-entry { 
+            background: white; 
+            padding: 15px; 
+            margin-bottom: 10px; 
+            border-left: 6px solid var(--nffm-red); 
+            border-radius: 4px; 
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            animation: fadeIn 0.5s ease;
         }
+        .traffic-entry strong { color: var(--nffm-blue); display: block; margin-bottom: 5px; }
+        .traffic-time { font-size: 11px; color: #888; display: block; margin-top: 10px; }
 
-        /* PROGRAMM STYLING */
-        .schedule-card {
-            background: white;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-            margin-bottom: 15px;
-        }
-        .schedule-day { color: var(--nffm-red); font-weight: bold; font-size: 1.2rem; margin-bottom: 10px; display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-        @media (max-width: 800px) { .main-layout { grid-template-columns: 1fr; } }
+        .schedule-card { background: white; padding: 20px; border-radius: 8px; margin-bottom: 15px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
     </style>
 </head>
 <body>
@@ -116,87 +71,80 @@
 </div>
 
 <div class="container">
-    
     <div id="home" class="tab-content active">
-        <div class="main-layout">
-            <div class="hero-box">
-                <div class="hero-img-wrap">
-                    <img src="Herunterladen.png">
-                    <div class="play-btn" onclick="openPlayer()">
-                        <div class="play-icon"></div>
-                    </div>
-                </div>
-                <div class="info-pane">
-                    <h2>NFFM: Dein Radio im Saarland</h2>
-                    <p>Echte Musik, echte Typen. Wir haben Character!</p>
-                </div>
+        <div class="hero-box">
+            <div class="hero-img-wrap">
+                <img src="Herunterladen.png">
+                <div class="play-btn" onclick="openPlayer()"><div class="play-icon"></div></div>
             </div>
-            <div style="background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
-                <h3>Nächste Highlights</h3>
-                <p><strong>Mo-Fr:</strong> Morningshow & Abendsschau</p>
-                <p><strong>Wochenende:</strong> Pure Rock</p>
-                <hr style="border: 0; border-top: 1px solid #eee;">
-                <p>Schon gehört? Check die neue <strong>Live-Verkehrskarte</strong> im Tab "Verkehr"!</p>
+            <div class="info-pane">
+                <h2>NFFM - Wir haben Character</h2>
+                <p>Echte Musik, echte Typen. Jetzt Live!</p>
             </div>
         </div>
     </div>
 
     <div id="programm" class="tab-content">
-        <h2 style="color: var(--nffm-blue);">Sendeplan</h2>
-        <div class="schedule-card">
-            <span class="schedule-day">Wochentags</span>
-            <p><strong>06:00 - 10:00 Uhr:</strong> NFFM Morningshow</p>
-            <p><strong>18:00 - 22:00 Uhr:</strong> NFFM Abendsschau</p>
-        </div>
-        <div class="schedule-card">
-            <span class="schedule-day" style="color:black;">Wochenende</span>
-            <p><strong>Samstag & Sonntag:</strong> Das NFFM Rock-Wochenende</p>
-        </div>
+        <h2>Sendeplan</h2>
+        <div class="schedule-card"><strong>06:00 - 10:00:</strong> NFFM Morningshow</div>
+        <div class="schedule-card"><strong>18:00 - 22:00:</strong> NFFM Abendsschau</div>
+        <div class="schedule-card" style="background: #333; color: white;"><strong>Wochenende:</strong> NFFM Rock Weekend</div>
     </div>
 
     <div id="verkehr" class="tab-content">
-        <h2 style="color: var(--nffm-red);">Live-Verkehrsservice Saarland</h2>
-        <p>Immer aktuell: Staus, Unfälle und Behinderungen in Echtzeit.</p>
-        
-        <div class="traffic-map-container">
-            <iframe 
-                width="100%" 
-                height="100%" 
-                frameborder="0" 
-                scrolling="no" 
-                marginheight="0" 
-                marginwidth="0" 
-                src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d166348.6756623696!2d6.9431!3d49.2333!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sde!2sde!4v1713865000000!5m2!1sde!2sde&layer=t">
-            </iframe>
+        <h2 style="color: var(--nffm-red);">Live Verkehrsservice</h2>
+        <p>Aktuelle Meldungen für das Saarland (wird automatisch aktualisiert):</p>
+        <div id="traffic-list">
+            <p>Lade aktuelle Meldungen...</p>
         </div>
-        <p style="font-size: 12px; color: #666; margin-top: 10px;">Quelle: Echtzeit-Verkehrsdaten für Saarbrücken, Saarlouis und Umgebung.</p>
     </div>
 
     <div id="team" class="tab-content">
-        <h2>Das NFFM Team</h2>
-        <p>Die Köpfe hinter dem Mikrofon.</p>
-        <div style="background: white; padding: 20px; border-radius: 8px; text-align: center;">
-             <img src="Herunterladen.png" style="width: 150px;">
-             <p>Wir suchen Verstärkung! Melde dich im Studio.</p>
-        </div>
+        <h2>Das Team</h2>
+        <p>Bald siehst du hier unsere Moderatoren.</p>
     </div>
-
 </div>
 
 <script>
     function showTab(tabId) {
-        const contents = document.querySelectorAll('.tab-content');
-        contents.forEach(content => content.classList.remove('active'));
-        
-        const tabs = document.querySelectorAll('.nav-tab');
-        tabs.forEach(tab => tab.classList.remove('active'));
-        
+        document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+        document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
         document.getElementById(tabId).classList.add('active');
         event.currentTarget.classList.add('active');
+
+        if(tabId === 'verkehr') { loadTraffic(); }
     }
 
     function openPlayer() {
         window.open("http://37.157.242.104:34275/stream", "NFFM_Player", "width=450,height=200");
+    }
+
+    // LIVE VERKEHR LADEN (RSS zu JSON)
+    async function loadTraffic() {
+        const list = document.getElementById('traffic-list');
+        // Wir nutzen einen RSS-Feed-Konverter, um echte Daten vom Saarland zu bekommen
+        const rssUrl = encodeURIComponent('https://www.verkehrsinformation.de/rss/saarland.xml');
+        const apiUrl = `https://api.rss2json.com/v1/api.json?rss_url=${rssUrl}`;
+
+        try {
+            const response = await fetch(apiUrl);
+            const data = await response.json();
+            
+            if (data.items.length === 0) {
+                list.innerHTML = "<div class='traffic-entry'>Aktuell keine Staumeldungen für das Saarland. Freie Fahrt!</div>";
+                return;
+            }
+
+            list.innerHTML = "";
+            data.items.forEach(item => {
+                const entry = document.createElement('div');
+                entry.className = 'traffic-entry';
+                entry.innerHTML = `<strong>Meldung:</strong> ${item.title} <br> ${item.description} <span class='traffic-time'>${item.pubDate}</span>`;
+                list.appendChild(entry);
+            });
+        } catch (e) {
+            list.innerHTML = "<p>Verkehrsdaten konnten nicht geladen werden. Bitte versuche es später erneut.</p>";
+        }
     }
 </script>
 
