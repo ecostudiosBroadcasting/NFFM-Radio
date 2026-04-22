@@ -53,6 +53,7 @@
             cursor: pointer;
             border: none;
             background: none;
+            outline: none;
         }
 
         .nav-tab.active { border-bottom: 4px solid var(--nffm-red); color: var(--nffm-red); }
@@ -77,28 +78,21 @@
         .play-icon { width: 0; height: 0; border-top: 15px solid transparent; border-bottom: 15px solid transparent; border-left: 25px solid white; margin-left: 5px; }
         .info-pane { padding: 20px; background: var(--nffm-blue); color: white; }
 
-        /* ROTES WETTER WIDGET STYLING */
-        .weather-frame-container {
-            background: var(--nffm-red);
-            padding: 15px;
-            border-radius: 12px;
-            box-shadow: 0 4px 15px rgba(214, 69, 69, 0.3);
-            overflow: hidden;
-        }
-
-        /* Dieser Filter färbt das blaue Widget in ein kräftiges Rot/Weiß um */
-        .red-weather-filter {
-            width: 100%;
-            height: 250px;
-            filter: sepia(100%) saturate(500%) hue-rotate(320deg) brightness(90%);
-            border-radius: 8px;
-        }
-
         /* VERKEHR STYLING */
         .traffic-item {
             background: white; padding: 15px; margin-bottom: 10px;
             border-left: 5px solid var(--nffm-red); border-radius: 4px; box-shadow: 0 2px 4px rgba(0,0,0,0.05);
         }
+
+        /* PROGRAMM STYLING */
+        .schedule-card {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            margin-bottom: 15px;
+        }
+        .schedule-day { color: var(--nffm-red); font-weight: bold; font-size: 1.2rem; margin-bottom: 10px; display: block; }
 
         @media (max-width: 800px) { .main-layout { grid-template-columns: 1fr; } }
     </style>
@@ -112,9 +106,9 @@
 
 <div class="nav-bar">
     <button class="nav-tab active" onclick="showTab('home')">Home</button>
-    <button class="nav-tab" onclick="showTab('wetter')">Wetter</button>
-    <button class="nav-tab" onclick="showTab('verkehr')">Verkehr</button>
     <button class="nav-tab" onclick="showTab('programm')">Programm</button>
+    <button class="nav-tab" onclick="showTab('verkehr')">Verkehr</button>
+    <button class="nav-tab" onclick="showTab('team')">Team</button>
 </div>
 
 <div class="container">
@@ -129,40 +123,48 @@
                     </div>
                 </div>
                 <div class="info-pane">
-                    <h2>Willkommen bei NFFM</h2>
-                    <p>Dein Sender für das Saarland. Jetzt Live einschalten!</p>
+                    <h2>NFFM: Jetzt einschalten</h2>
+                    <p>Morgens Show, abends Schau und am Wochenende Rock pur!</p>
                 </div>
             </div>
             <div style="background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
-                <h3>Studio News</h3>
-                <p>NFFM ist jetzt auch mit neuem Wetter-Service online.</p>
-                <hr style="border: 0; border-top: 1px solid #eee;">
-                <p>Morgen ab 08:00: Die große Morning-Show.</p>
+                <h3>Nächste Sendungen</h3>
+                <p><strong>Mo-Fr:</strong> 06:00 NFFM Morningshow</p>
+                <p><strong>Mo-Fr:</strong> 18:00 NFFM Abendsschau</p>
+                <p><strong>Sa-So:</strong> Ganztägig Rock-Wochenende</p>
             </div>
         </div>
     </div>
 
-    <div id="wetter" class="tab-content">
-        <h2 style="color: var(--nffm-red);">Live Wetter Saarland</h2>
-        <div class="weather-frame-container">
-            <iframe class="red-weather-filter" src="https://www.meteoblue.com/de/wetter/widget/three/saarbr%c3%bccken_deutschland_2841590?geoblocking=0&use_location=0&city_selector=1&common_bg_color=%23ffffff&display_temp=1&display_wind=1&display_precipitation=1&display_sun=1&display_visibility=1&display_pressure=1&display_humidity=1&filter=none&days=4&tempunit=CELSIUS&windunit=KILOMETER_PER_HOUR&precipunit=MILLIMETER&coloured=1&pictoicon=1&font=Arial&layout=light" frameborder="0" scrolling="NO" allowtransparency="true"></iframe>
+    <div id="programm" class="tab-content">
+        <h2 style="color: var(--nffm-blue);">Unser Sendeplan</h2>
+        
+        <div class="schedule-card">
+            <span class="schedule-day">Montag - Freitag</span>
+            <p><strong>06:00 - 10:00 Uhr:</strong> NFFM Morningshow – Mit Energie in den Tag.</p>
+            <p><strong>10:00 - 18:00 Uhr:</strong> Character-Mix – Der beste Sound für die Arbeit.</p>
+            <p><strong>18:00 - 22:00 Uhr:</strong> NFFM Abendsschau – Dein Feierabend-Magazin.</p>
         </div>
-        <p style="font-size: 12px; color: #666; margin-top: 10px;">Daten für Saarlouis, Saarbrücken, Völklingen & Merzig.</p>
+
+        <div class="schedule-card" style="border-left: 5px solid black;">
+            <span class="schedule-day" style="color: black;">Wochenende (Sa & So)</span>
+            <p><strong>00:00 - 24:00 Uhr:</strong> NFFM Rock-Wochenende – Nur der beste Rock für das Saarland.</p>
+        </div>
     </div>
 
     <div id="verkehr" class="tab-content">
-        <h2 style="color: var(--nffm-blue);">Verkehr & Blitzer</h2>
-        <div class="traffic-item"><strong>A620:</strong> Freie Fahrt Richtung Saarlouis.</div>
-        <div class="traffic-item"><strong>Völklingen:</strong> Baustelle in der City, 5 Min. Verzögerung.</div>
-        <div class="traffic-item"><strong>Blitzer-Service:</strong> Aktuell keine Meldungen bekannt.</div>
+        <h2 style="color: var(--nffm-blue);">Verkehrsservice & Blitzer</h2>
+        <div class="traffic-item"><strong>A620:</strong> Freie Fahrt in beiden Richtungen.</div>
+        <div class="traffic-item"><strong>Saarlouis:</strong> Erhöhtes Verkehrsaufkommen in der Innenstadt.</div>
+        <div class="traffic-item"><strong>NFFM-Hörerservice:</strong> Meldet Blitzer per Nachricht an das Studio!</div>
     </div>
 
-    <div id="programm" class="tab-content">
-        <h2>Sendeplan</h2>
-        <div style="background: white; padding: 20px; border-radius: 8px;">
-            <p><strong>08:00 - 12:00:</strong> Die NFFM Morning-Show</p>
-            <p><strong>12:00 - 18:00:</strong> Character-Mix am Mittag</p>
-            <p><strong>18:00 - 00:00:</strong> Night-Beat</p>
+    <div id="team" class="tab-content">
+        <h2>Das NFFM Team</h2>
+        <p>Hier erfährst du bald mehr über unsere Moderatoren der Morningshow und Abendsschau.</p>
+        <div style="background: white; padding: 20px; border-radius: 8px; text-align: center;">
+             <img src="Herunterladen.png" style="width: 150px;">
+             <p><em>Teamseite im Aufbau...</em></p>
         </div>
     </div>
 
@@ -181,6 +183,7 @@
     }
 
     function openPlayer() {
+        // Öffnet den Stream im Popup ohne das Semikolon
         window.open("http://37.157.242.104:34275/stream", "NFFM_Player", "width=450,height=200");
     }
 </script>
