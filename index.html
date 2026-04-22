@@ -43,7 +43,6 @@
         .nav-bar {
             background-color: var(--white);
             border-top: 1px solid #eee;
-            border-bottom: 3px solid var(--nffm-red);
             display: flex;
             padding: 0 20px;
             overflow-x: auto;
@@ -60,15 +59,33 @@
             transition: 0.2s;
         }
 
-        .nav-tab:hover {
-            color: var(--nffm-red);
-            background-color: #f9f9f9;
+        .nav-tab:hover { color: var(--nffm-red); }
+        .nav-tab.active { border-bottom: 4px solid var(--nffm-red); }
+
+        /* WETTER LEISTE (Neu) */
+        .weather-bar {
+            background-color: #e9ecef;
+            border-bottom: 3px solid var(--nffm-red);
+            padding: 10px 20px;
+            display: flex;
+            gap: 20px;
+            overflow-x: auto;
+            font-size: 13px;
+            font-weight: bold;
+            color: var(--nffm-blue);
         }
 
-        .nav-tab.active {
-            border-bottom: 4px solid var(--nffm-red);
-            margin-bottom: -3px;
+        .weather-item {
+            display: flex;
+            align-items: center;
+            white-space: nowrap;
+            background: white;
+            padding: 5px 12px;
+            border-radius: 15px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
         }
+
+        .weather-icon { margin-right: 5px; font-size: 16px; }
 
         /* CONTAINER */
         .container {
@@ -77,7 +94,6 @@
             padding: 0 15px;
         }
 
-        /* HAUPT-LAYOUT (Vgl. SR.de) */
         .main-layout {
             display: grid;
             grid-template-columns: 2fr 1fr;
@@ -88,7 +104,6 @@
         .hero-box {
             background-color: var(--white);
             box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-            position: relative;
         }
 
         .hero-img-wrap {
@@ -98,12 +113,7 @@
             overflow: hidden;
         }
 
-        .hero-img-wrap img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            opacity: 0.8;
-        }
+        .hero-img-wrap img { width: 100%; height: 100%; object-fit: cover; opacity: 0.8; }
 
         .play-btn-big {
             position: absolute;
@@ -124,43 +134,18 @@
         }
 
         .play-btn-big:hover { transform: translate(-50%, -50%) scale(1.1); background: var(--nffm-red); }
+        .play-icon { width: 0; height: 0; border-top: 18px solid transparent; border-bottom: 18px solid transparent; border-left: 28px solid white; margin-left: 8px; }
 
-        .play-icon {
-            width: 0; height: 0;
-            border-top: 18px solid transparent;
-            border-bottom: 18px solid transparent;
-            border-left: 28px solid white;
-            margin-left: 8px;
-        }
+        .hero-info { padding: 25px; background-color: var(--nffm-blue); color: white; }
 
-        .hero-info {
-            padding: 25px;
-            background-color: var(--nffm-blue);
-            color: white;
-        }
-
-        /* SIDEBAR / NEWS GRID */
-        .grid-small {
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-        }
-
-        .news-card {
-            background: var(--white);
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-            display: flex;
-            height: 100px;
-        }
-
+        /* SIDEBAR */
+        .grid-small { display: flex; flex-direction: column; gap: 20px; }
+        .news-card { background: var(--white); box-shadow: 0 2px 5px rgba(0,0,0,0.1); display: flex; height: 100px; }
         .news-card img { width: 100px; object-fit: cover; }
         .news-content { padding: 10px; }
         .news-content h4 { margin: 0; font-size: 14px; color: var(--nffm-blue); }
-        .news-content p { margin: 5px 0 0; font-size: 12px; }
 
-        @media (max-width: 850px) {
-            .main-layout { grid-template-columns: 1fr; }
-        }
+        @media (max-width: 850px) { .main-layout { grid-template-columns: 1fr; } }
     </style>
 </head>
 <body>
@@ -176,12 +161,17 @@
     <a href="#" class="nav-tab active">Home</a>
     <a href="#" class="nav-tab">Programm</a>
     <a href="#" class="nav-tab">Team</a>
-    <a href="#" class="nav-tab">Charts</a>
     <a href="#" class="nav-tab">Kontakt</a>
 </nav>
 
+<div class="weather-bar">
+    <div class="weather-item"><span class="weather-icon">☀️</span> Saarbrücken: 18°C</div>
+    <div class="weather-item"><span class="weather-icon">🌤️</span> Saarlouis: 17°C</div>
+    <div class="weather-item"><span class="weather-icon">☁️</span> Völklingen: 17°C</div>
+    <div class="weather-item"><span class="weather-icon">☀️</span> Merzig: 16°C</div>
+    </div>
+
 <div class="container">
-    
     <div class="main-layout">
         <div class="hero-box">
             <div class="hero-img-wrap">
@@ -191,44 +181,27 @@
                 </div>
             </div>
             <div class="hero-info">
-                <span style="text-transform: uppercase; font-size: 12px; opacity: 0.8;">Jetzt Live</span>
-                <h2 style="margin: 5px 0;">Wir haben Character - Die NFFM Morning Show</h2>
-                <p style="font-size: 14px; opacity: 0.9;">Klicke auf den Play-Button, um unser Programm weltweit im Web-Player zu hören.</p>
+                <h2 style="margin: 5px 0;">NFFM: Wir haben Character</h2>
+                <p>Klicke auf Play, um den Live-Stream zu starten.</p>
             </div>
         </div>
 
         <div class="grid-small">
             <div class="news-card">
-                <img src="Herunterladen.png" alt="News">
-                <div class="news-content">
-                    <h4>Wetter</h4>
-                    <p>Aktuelle Aussichten für die Region.</p>
-                </div>
+                <img src="Herunterladen.png">
+                <div class="news-content"><h4>Verkehrsservice</h4><p>Aktuelle Meldungen aus dem Saarland.</p></div>
             </div>
             <div class="news-card">
-                <img src="Herunterladen.png" alt="News">
-                <div class="news-content">
-                    <h4>Verkehr</h4>
-                    <p>Alle Staus und Blitzer auf einen Blick.</p>
-                </div>
-            </div>
-            <div class="news-card">
-                <img src="Herunterladen.png" alt="News">
-                <div class="news-content">
-                    <h4>Team-Blog</h4>
-                    <p>Hinter den Kulissen von NFFM.</p>
-                </div>
+                <img src="Herunterladen.png">
+                <div class="news-content"><h4>NFFM Team</h4><p>Deine Moderatoren im Überblick.</p></div>
             </div>
         </div>
     </div>
-
 </div>
 
 <script>
 function openPlayer() {
-    const url = "http://37.157.242.104:34275/stream";
-    const specs = "width=400,height=200,menubar=no,toolbar=no,location=no,status=no,resizable=no";
-    window.open(url, "NFFM_Player", specs);
+    window.open("http://37.157.242.104:34275/stream", "NFFM_Player", "width=400,height=200");
 }
 </script>
 
