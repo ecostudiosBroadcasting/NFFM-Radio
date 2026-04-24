@@ -31,11 +31,19 @@
 
         /* HERO & PLAY */
         .hero-box { background: var(--white); box-shadow: 0 4px 10px rgba(0,0,0,0.1); margin-bottom: 20px; }
-        .hero-img-wrap { position: relative; height: 350px; background: #000; }
-        .hero-img-wrap img { width: 100%; height: 100%; object-fit: cover; opacity: 0.7; }
-        .play-btn { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 80px; height: 80px; background: var(--nffm-red); border-radius: 50%; border: 3px solid white; cursor: pointer; display: flex; justify-content: center; align-items: center; }
+        .hero-img-wrap { position: relative; height: 350px; background: #000; } /* Hintergrund jetzt neutral Schwarz */
+        .hero-img-wrap img { width: 100%; height: 100%; object-fit: cover; opacity: 0.5; display: none; } /* Bild standardmäßig ausgeblendet */
+        
+        .play-btn { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 80px; height: 80px; background: var(--nffm-red); border-radius: 50%; border: 3px solid white; cursor: pointer; display: flex; justify-content: center; align-items: center; z-index: 10; }
         .play-icon { width: 0; height: 0; border-top: 15px solid transparent; border-bottom: 15px solid transparent; border-left: 25px solid white; margin-left: 5px; }
         .info-pane { padding: 20px; background: var(--nffm-blue); color: white; }
+
+        /* NEUE SENDEPLAN TABELLE */
+        .schedule-table { width: 100%; border-collapse: collapse; background: white; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        .schedule-table th, .schedule-table td { padding: 15px; text-align: left; border-bottom: 1px solid #eee; }
+        .schedule-table th { background: #f9f9f9; color: var(--nffm-blue); text-transform: uppercase; font-size: 12px; }
+        .schedule-table tr:last-child td { border-bottom: none; }
+        .day-col { font-weight: bold; color: var(--nffm-red); width: 120px; }
 
         /* LIVE VERKEHR LISTE */
         #traffic-list { list-style: none; padding: 0; }
@@ -52,8 +60,6 @@
         .traffic-time { font-size: 11px; color: #888; display: block; margin-top: 10px; }
 
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-
-        .schedule-card { background: white; padding: 20px; border-radius: 8px; margin-bottom: 15px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
     </style>
 </head>
 <body>
@@ -74,7 +80,6 @@
     <div id="home" class="tab-content active">
         <div class="hero-box">
             <div class="hero-img-wrap">
-                <img src="Herunterladen.png">
                 <div class="play-btn" onclick="openPlayer()"><div class="play-icon"></div></div>
             </div>
             <div class="info-pane">
@@ -86,14 +91,28 @@
 
     <div id="programm" class="tab-content">
         <h2>Sendeplan</h2>
-        <div class="schedule-card"><strong>06:00 - 10:00:</strong> NFFM Morningshow</div>
-        <div class="schedule-card"><strong>18:00 - 22:00:</strong> NFFM Abendsschau</div>
-        <div class="schedule-card" style="background: #333; color: white;"><strong>Wochenende:</strong> NFFM Rock Weekend</div>
+        <table class="schedule-table">
+            <thead>
+                <tr>
+                    <th>Tag</th>
+                    <th>Zeit</th>
+                    <th>Sendung</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td class="day-col">Montag</td><td>06:00 - 10:00</td><td>NFFM Morningshow</td></tr>
+                <tr><td class="day-col">Dienstag</td><td>18:00 - 22:00</td><td>NFFM Abendschau</td></tr>
+                <tr><td class="day-col">Mittwoch</td><td>18:00 - 20:00</td><td>Eco News Spezial</td></tr>
+                <tr><td class="day-col">Donnerstag</td><td>19:00 - 22:00</td><td>NFFM Regie Live</td></tr>
+                <tr><td class="day-col">Freitag</td><td>20:00 - 00:00</td><td>Rock Night</td></tr>
+                <tr style="background: #f0f0f0;"><td class="day-col">Wochenende</td><td>Ganztags</td><td>NFFM Rock Weekend</td></tr>
+            </tbody>
+        </table>
     </div>
 
     <div id="verkehr" class="tab-content">
         <h2 style="color: var(--nffm-red);">Live Verkehrsservice</h2>
-        <p>Aktuelle Meldungen für das Saarland (wird automatisch aktualisiert):</p>
+        <p>Aktuelle Meldungen für das Saarland:</p>
         <div id="traffic-list">
             <p>Lade aktuelle Meldungen...</p>
         </div>
@@ -119,10 +138,8 @@
         window.open("http://37.157.242.104:34275/stream", "NFFM_Player", "width=450,height=200");
     }
 
-    // LIVE VERKEHR LADEN (RSS zu JSON)
     async function loadTraffic() {
         const list = document.getElementById('traffic-list');
-        // Wir nutzen einen RSS-Feed-Konverter, um echte Daten vom Saarland zu bekommen
         const rssUrl = encodeURIComponent('https://www.verkehrsinformation.de/rss/saarland.xml');
         const apiUrl = `https://api.rss2json.com/v1/api.json?rss_url=${rssUrl}`;
 
@@ -130,7 +147,7 @@
             const response = await fetch(apiUrl);
             const data = await response.json();
             
-            if (data.items.length === 0) {
+            if (!data.items || data.items.length === 0) {
                 list.innerHTML = "<div class='traffic-entry'>Aktuell keine Staumeldungen für das Saarland. Freie Fahrt!</div>";
                 return;
             }
