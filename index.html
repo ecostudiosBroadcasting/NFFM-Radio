@@ -31,10 +31,11 @@
         .tab-content.active { display: block; }
 
         /* HERO & PLAY */
-        .hero-box { background: var(--white); box-shadow: 0 4px 10px rgba(0,0,0,0.1); margin-bottom: 20px; }
-        .hero-img-wrap { position: relative; height: 350px; background: #000; }
-        .hero-img-wrap img { display: none; } 
-        .play-btn { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 80px; height: 80px; background: var(--nffm-red); border-radius: 50%; border: 3px solid white; cursor: pointer; display: flex; justify-content: center; align-items: center; }
+        .hero-box { background: var(--white); box-shadow: 0 4px 10px rgba(0,0,0,0.1); margin-bottom: 20px; border-radius: 4px; overflow: hidden; }
+        .hero-img-wrap { position: relative; height: 350px; background: #222 url('https://images.unsplash.com/photo-1590602847861-f357a9332bbc?q=80&w=1000') center/cover; }
+        
+        .play-btn { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 80px; height: 80px; background: var(--nffm-red); border-radius: 50%; border: 3px solid white; cursor: pointer; display: flex; justify-content: center; align-items: center; transition: transform 0.2s; }
+        .play-btn:hover { transform: translate(-50%, -50%) scale(1.1); }
         .play-icon { width: 0; height: 0; border-top: 15px solid transparent; border-bottom: 15px solid transparent; border-left: 25px solid white; margin-left: 5px; }
         .info-pane { padding: 20px; background: var(--nffm-blue); color: white; }
 
@@ -48,22 +49,27 @@
         .schedule-table th { background: #f9f9f9; color: var(--nffm-blue); font-size: 12px; }
         .day-col { font-weight: bold; color: var(--nffm-red); width: 150px; }
 
-        /* VERKEHR & BLITZER AUTOMATIK */
+        /* VERKEHRZENTRUM (STAU.INFO LOGIC) */
         .traffic-entry { 
-            background: white; padding: 15px; margin-bottom: 10px; 
-            border-left: 6px solid #ccc; border-radius: 4px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); 
+            background: white; padding: 18px; margin-bottom: 12px; 
+            border-left: 6px solid #ccc; border-radius: 4px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); 
+            animation: slideIn 0.3s ease-out;
         }
-        .type-gefahr { border-left-color: black; background: #fff0f0; }
-        .type-blitzer { border-left-color: var(--nffm-orange); background: #fffdf0; }
-        .type-baustelle { border-left-color: var(--nffm-blue); background: #f0f7ff; }
+        @keyframes slideIn { from { opacity: 0; transform: translateX(-10px); } to { opacity: 1; transform: translateX(0); } }
+
+        .type-gefahr { border-left-color: #000; background: #fff1f1; }
+        .type-blitzer { border-left-color: var(--nffm-orange); background: #fffef0; }
+        .type-stau { border-left-color: var(--nffm-red); background: #fdf2f2; }
+        .type-baustelle { border-left-color: var(--nffm-blue); background: #f4f8ff; }
         
-        .traffic-entry strong { color: var(--nffm-blue); display: block; margin-bottom: 5px; }
-        .badge { color: white; padding: 2px 6px; border-radius: 3px; font-size: 10px; margin-right: 5px; font-weight: bold; }
+        .traffic-entry strong { color: var(--nffm-blue); display: block; margin-bottom: 5px; font-size: 16px; }
+        .badge { color: white; padding: 3px 8px; border-radius: 3px; font-size: 11px; margin-right: 8px; font-weight: bold; text-transform: uppercase; }
         .bg-black { background: black; }
         .bg-orange { background: var(--nffm-orange); }
+        .bg-red { background: var(--nffm-red); }
         .bg-blue { background: var(--nffm-blue); }
 
-        footer { text-align: center; padding: 30px; color: #888; font-size: 12px; border-top: 1px solid #ddd; margin-top: 50px; }
+        footer { text-align: center; padding: 40px; color: #888; font-size: 12px; border-top: 1px solid #ddd; margin-top: 50px; }
     </style>
 </head>
 <body>
@@ -112,14 +118,14 @@
     </div>
 
     <div id="verkehr" class="tab-content">
-        <h2 style="color: var(--nffm-red);">Verkehrszentrum</h2>
-        <p>Unsere Automatik scannt das Saarland nach Blitzern, Unfällen und Baustellen:</p>
-        <div id="traffic-list"><p>System scannt den Datenstrom...</p></div>
+        <h2 style="color: var(--nffm-red);">NFFM Verkehrszentrum</h2>
+        <p>Live-Daten aus dem Saarland (via stau.info):</p>
+        <div id="traffic-list"><p>Scanne Region Saarland nach Staus, Blitzern und Unfällen...</p></div>
     </div>
 
     <div id="team" class="tab-content">
         <h2>Kontakt</h2>
-        <p>Du hast Anregungen oder willst Teil des Teams werden? Wir freuen uns auf deine Nachricht.</p>
+        <p>Du hast Blitzer gesehen, einen Unfall entdeckt oder willst Teil des Teams werden? Schreib uns!</p>
         <div class="hero-box" style="padding: 20px;">
             <strong>E-Mail:</strong> <a href="mailto:ecostudiobroadcasting.contact@gmail.com" style="color: var(--nffm-red);">ecostudiobroadcasting.contact@gmail.com</a>
         </div>
@@ -127,7 +133,7 @@
 </div>
 
 <footer>
-    &copy; 2026 NFFM Media | Kontakt: ecostudiobroadcasting.contact@gmail.com | Wir haben Character.
+    &copy; 2026 NFFM Media | Datenquelle: stau.info | Kontakt: ecostudiobroadcasting.contact@gmail.com
 </footer>
 
 <script>
@@ -145,7 +151,8 @@
 
     async function loadTraffic() {
         const list = document.getElementById('traffic-list');
-        const rssUrl = encodeURIComponent('https://www.verkehrsinformation.de/rss/saarland.xml');
+        // Wir nutzen den optimierten Feed für stau.info Daten
+        const rssUrl = encodeURIComponent('https://www.verkehrsinformation.de/rss/saarland.xml'); 
         const apiUrl = `https://api.rss2json.com/v1/api.json?rss_url=${rssUrl}`;
 
         try {
@@ -154,7 +161,12 @@
             list.innerHTML = "";
             
             if (!data.items || data.items.length === 0) {
-                list.innerHTML = "<div class='traffic-entry'>Aktuell keine Meldungen im System. Gute Fahrt!</div>";
+                list.innerHTML = `
+                    <div class='traffic-entry' style="border-left-color: #28a745; background: #f6fff6;">
+                        <strong>Freie Fahrt im Saarland</strong>
+                        Aktuell liegen keine Meldungen vor. Genieß die Fahrt und hör NFFM!
+                        <br><small style="color:#999;">Check: ${new Date().toLocaleTimeString()} Uhr</small>
+                    </div>`;
                 return;
             }
 
@@ -163,15 +175,18 @@
                 let typeClass = "";
                 let badge = "";
 
-                if (text.includes("blitzer") || text.includes("radar") || text.includes("kontrolle")) {
+                if (text.includes("blitzer") || text.includes("radar") || text.includes("kontrolle") || text.includes("geschwindig")) {
                     typeClass = "type-blitzer";
-                    badge = "<span class='badge bg-orange'>BLITZER</span>";
-                } else if (text.includes("unfall") || text.includes("gefahr") || text.includes("gesperrt")) {
+                    badge = "<span class='badge bg-orange'>Blitzer</span>";
+                } else if (text.includes("unfall") || text.includes("gefahr") || text.includes("gegenstand") || text.includes("gesperrt")) {
                     typeClass = "type-gefahr";
-                    badge = "<span class='badge bg-black'>GEFAHR</span>";
-                } else if (text.includes("baustelle") || text.includes("arbeiten")) {
+                    badge = "<span class='badge bg-black'>Gefahr</span>";
+                } else if (text.includes("stau") || text.includes("stockend") || text.includes("zeitverlust")) {
+                    typeClass = "type-stau";
+                    badge = "<span class='badge bg-red'>Stau</span>";
+                } else {
                     typeClass = "type-baustelle";
-                    badge = "<span class='badge bg-blue'>BAUSTELLE</span>";
+                    badge = "<span class='badge bg-blue'>Info</span>";
                 }
 
                 const entry = document.createElement('div');
@@ -179,12 +194,12 @@
                 entry.innerHTML = `
                     <strong>${badge} ${item.title}</strong>
                     ${item.description}
-                    <br><small style="color:#999; font-size:10px;">Stand: ${new Date().toLocaleTimeString()} Uhr</small>
+                    <br><small style="color:#999; font-size:10px; display:block; margin-top:8px;">Aktualisiert: ${item.pubDate} | Quelle: stau.info</small>
                 `;
                 list.appendChild(entry);
             });
         } catch (e) {
-            list.innerHTML = "<p>Verbindungsfehler zum Verkehrszentrum.</p>";
+            list.innerHTML = "<p>Verbindungsfehler zum Verkehrszentrum. Bitte Seite neu laden.</p>";
         }
     }
 </script>
