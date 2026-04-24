@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="de">
 <head>
@@ -31,19 +32,19 @@
 
         /* HERO & PLAY */
         .hero-box { background: var(--white); box-shadow: 0 4px 10px rgba(0,0,0,0.1); margin-bottom: 20px; }
-        .hero-img-wrap { position: relative; height: 350px; background: #000; } /* Hintergrund jetzt neutral Schwarz */
-        .hero-img-wrap img { width: 100%; height: 100%; object-fit: cover; opacity: 0.5; display: none; } /* Bild standardmäßig ausgeblendet */
+        .hero-img-wrap { position: relative; height: 350px; background: #000; }
+        /* Bild entfernt/ausgeblendet für sauberen Start */
+        .hero-img-wrap img { display: none; } 
         
-        .play-btn { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 80px; height: 80px; background: var(--nffm-red); border-radius: 50%; border: 3px solid white; cursor: pointer; display: flex; justify-content: center; align-items: center; z-index: 10; }
+        .play-btn { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 80px; height: 80px; background: var(--nffm-red); border-radius: 50%; border: 3px solid white; cursor: pointer; display: flex; justify-content: center; align-items: center; }
         .play-icon { width: 0; height: 0; border-top: 15px solid transparent; border-bottom: 15px solid transparent; border-left: 25px solid white; margin-left: 5px; }
         .info-pane { padding: 20px; background: var(--nffm-blue); color: white; }
 
-        /* NEUE SENDEPLAN TABELLE */
+        /* SENDEPLAN TABELLE */
         .schedule-table { width: 100%; border-collapse: collapse; background: white; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
         .schedule-table th, .schedule-table td { padding: 15px; text-align: left; border-bottom: 1px solid #eee; }
-        .schedule-table th { background: #f9f9f9; color: var(--nffm-blue); text-transform: uppercase; font-size: 12px; }
-        .schedule-table tr:last-child td { border-bottom: none; }
-        .day-col { font-weight: bold; color: var(--nffm-red); width: 120px; }
+        .schedule-table th { background: #f9f9f9; color: var(--nffm-blue); font-size: 12px; text-transform: uppercase; }
+        .day-col { font-weight: bold; color: var(--nffm-red); width: 150px; }
 
         /* LIVE VERKEHR LISTE */
         #traffic-list { list-style: none; padding: 0; }
@@ -94,18 +95,32 @@
         <table class="schedule-table">
             <thead>
                 <tr>
-                    <th>Tag</th>
-                    <th>Zeit</th>
+                    <th>Zeitraum</th>
                     <th>Sendung</th>
+                    <th>Status</th>
                 </tr>
             </thead>
             <tbody>
-                <tr><td class="day-col">Montag</td><td>06:00 - 10:00</td><td>NFFM Morningshow</td></tr>
-                <tr><td class="day-col">Dienstag</td><td>18:00 - 22:00</td><td>NFFM Abendschau</td></tr>
-                <tr><td class="day-col">Mittwoch</td><td>18:00 - 20:00</td><td>Eco News Spezial</td></tr>
-                <tr><td class="day-col">Donnerstag</td><td>19:00 - 22:00</td><td>NFFM Regie Live</td></tr>
-                <tr><td class="day-col">Freitag</td><td>20:00 - 00:00</td><td>Rock Night</td></tr>
-                <tr style="background: #f0f0f0;"><td class="day-col">Wochenende</td><td>Ganztags</td><td>NFFM Rock Weekend</td></tr>
+                <tr>
+                    <td>00:00 - 11:30</td>
+                    <td>NFFM Nachtexpress</td>
+                    <td style="color: #888;">OFFLINE</td>
+                </tr>
+                <tr style="background: rgba(214, 69, 69, 0.05);">
+                    <td class="day-col">11:30 - 15:00</td>
+                    <td><strong>NFFM Morningshow</strong></td>
+                    <td style="color: var(--nffm-red); font-weight: bold;">LIVE</td>
+                </tr>
+                <tr style="background: rgba(0, 75, 124, 0.05);">
+                    <td class="day-col">18:00 - 21:00</td>
+                    <td><strong>NFFM Abendschau</strong></td>
+                    <td style="color: var(--nffm-blue); font-weight: bold;">LIVE</td>
+                </tr>
+                <tr>
+                    <td>21:00 - 00:00</td>
+                    <td>NFFM Late Night</td>
+                    <td style="color: #888;">OFFLINE</td>
+                </tr>
             </tbody>
         </table>
     </div>
@@ -129,7 +144,7 @@
         document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
         document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
         document.getElementById(tabId).classList.add('active');
-        event.currentTarget.classList.add('active');
+        if(event) event.currentTarget.classList.add('active');
 
         if(tabId === 'verkehr') { loadTraffic(); }
     }
@@ -148,7 +163,12 @@
             const data = await response.json();
             
             if (!data.items || data.items.length === 0) {
-                list.innerHTML = "<div class='traffic-entry'>Aktuell keine Staumeldungen für das Saarland. Freie Fahrt!</div>";
+                list.innerHTML = `
+                    <div class='traffic-entry' style="border-left-color: #28a745;">
+                        <strong>Status: Alles im grünen Bereich</strong>
+                        Aktuell keine Staumeldungen für das Saarland bekannt oder die Straßen sind frei.
+                        <span class='traffic-time'>Letzter Check: ${new Date().toLocaleTimeString()} Uhr</span>
+                    </div>`;
                 return;
             }
 
@@ -160,7 +180,7 @@
                 list.appendChild(entry);
             });
         } catch (e) {
-            list.innerHTML = "<p>Verkehrsdaten konnten nicht geladen werden. Bitte versuche es später erneut.</p>";
+            list.innerHTML = "<div class='traffic-entry'>Daten konnten nicht geladen werden. Bitte manuell prüfen.</div>";
         }
     }
 </script>
