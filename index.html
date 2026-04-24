@@ -2,106 +2,124 @@
 <html lang="de">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NFFM - Mediathek</title>
+    <title>NFFM Radio - Player</title>
     <style>
-        /* Dein weißes Design bleibt */
         body {
             font-family: Arial, sans-serif;
             background-color: white;
             color: black;
-            margin: 20px;
+            margin: 0;
+            padding: 0;
+            text-align: center;
         }
 
-        header {
+        /* TABS NAVIGATION */
+        .tabs {
+            display: flex;
+            background: #f1f1f1;
             border-bottom: 1px solid #ccc;
-            margin-bottom: 20px;
-            padding-bottom: 10px;
         }
 
-        /* Tabelle schlicht und weiß */
+        .tab-button {
+            flex: 1;
+            padding: 15px;
+            cursor: pointer;
+            border: none;
+            background: none;
+            font-weight: bold;
+            text-transform: uppercase;
+            font-size: 12px;
+        }
+
+        .tab-button:hover { background: #e0e0e0; }
+        .tab-button.active { background: white; border-bottom: 2px solid black; }
+
+        /* CONTENT BEREICHE */
+        .tab-content { display: none; padding: 20px; }
+        .tab-content.active { display: block; }
+
+        /* PLAYER (Ohne Bild) */
+        video {
+            width: 100%;
+            background: black;
+            border-radius: 4px;
+        }
+
+        /* SENDEPLAN TABELLE */
         table {
             width: 100%;
             border-collapse: collapse;
-            margin: 20px 0;
+            margin-top: 10px;
+            font-size: 14px;
         }
 
         th, td {
-            border: 1px solid #ddd;
-            padding: 12px;
+            border: 1px solid #eee;
+            padding: 10px;
             text-align: left;
         }
 
-        th {
-            background-color: #f9f9f9;
-        }
+        th { background: #fafafa; }
 
-        /* Player-Fix: Einfach schwarz ohne Vorschaubild */
-        video {
-            width: 100%;
-            max-width: 800px;
-            background-color: black;
-            display: block;
-        }
-
-        .section {
-            margin-bottom: 30px;
-        }
-
-        /* Verkehr: Helle Karte */
+        /* VERKEHR (Fix) */
         iframe {
-            border: 1px solid #ccc;
             width: 100%;
-            height: 400px;
+            height: 300px;
+            border: 1px solid #ccc;
         }
     </style>
 </head>
 <body>
 
-    <header>
-        <h1>NFFM Mediathek</h1>
-    </header>
-
-    <div class="section">
-        <h2>Aktuelle Sendung</h2>
-        <video controls>
-            <source src="video.mp4" type="video/mp4">
-            Ihr Browser unterstützt das Video-Tag nicht.
-        </video>
+    <div class="tabs">
+        <button class="tab-button active" onclick="openTab('player')">Player</button>
+        <button class="tab-button" onclick="openTab('plan')">Sendeplan</button>
+        <button class="tab-button" onclick="openTab('verkehr')">Verkehr</button>
     </div>
 
-    <div class="section">
-        <h2>Sendeplan</h2>
+    <div id="player" class="tab-content active">
+        <h3>NFFM LIVE</h3>
+        <video controls>
+            <source src="stream-url-hier.mp4" type="video/mp4">
+        </video>
+        <p>Du hörst: Nachrichten für fast morgen</p>
+    </div>
+
+    <div id="plan" class="tab-content">
+        <h3>Sendeplan</h3>
         <table>
-            <thead>
-                <tr>
-                    <th>Wochentag</th>
-                    <th>Sendung</th>
-                    <th>Uhrzeit</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr><td>Montag</td><td>NFFM Aktuell</td><td>18:00</td></tr>
-                <tr><td>Dienstag</td><td>Eco Talk</td><td>19:00</td></tr>
-                <tr><td>Mittwoch</td><td>Wirtschaft</td><td>18:00</td></tr>
-                <tr><td>Donnerstag</td><td>Live-Report</td><td>20:00</td></tr>
-                <tr><td>Freitag</td><td>Wochenrückblick</td><td>17:00</td></tr>
-                <tr><td>Samstag</td><td>Best Of</td><td>12:00</td></tr>
-                <tr><td>Sonntag</td><td>Spielfilm</td><td>20:15</td></tr>
-            </tbody>
+            <tr><th>Tag</th><th>Programm</th><th>Zeit</th></tr>
+            <tr><td>Mo</td><td>NFFM News</td><td>18:00</td></tr>
+            <tr><td>Di</td><td>Eco Talk</td><td>19:00</td></tr>
+            <tr><td>Mi</td><td>Tech-Update</td><td>18:00</td></tr>
+            <tr><td>Do</td><td>Live Regie</td><td>20:00</td></tr>
+            <tr><td>Fr</td><td>Weekend</td><td>17:00</td></tr>
+            <tr><td>Sa/So</td><td>Best of</td><td>12:00</td></tr>
         </table>
     </div>
 
-    <div class="section">
-        <h2>Verkehrsservice</h2>
-        <iframe 
-            src="https://www.openstreetmap.org/export/embed.html?bbox=6.90%2C49.18%2C7.10%2C49.28&layer=mapnik">
-        </iframe>
+    <div id="verkehr" class="tab-content">
+        <h3>Verkehrslage</h3>
+        <iframe src="https://www.openstreetmap.org/export/embed.html?bbox=6.90%2C49.18%2C7.10%2C49.28&layer=mapnik"></iframe>
     </div>
 
-    <footer>
-        <p>&copy; 2026 EcoStudios / NFFM</p>
-    </footer>
+    <script>
+        function openTab(tabId) {
+            // Alle Inhalte verstecken
+            var contents = document.getElementsByClassName('tab-content');
+            for (var i = 0; i < contents.length; i++) {
+                contents[i].classList.remove('active');
+            }
+            // Alle Buttons deaktivieren
+            var buttons = document.getElementsByClassName('tab-button');
+            for (var i = 0; i < buttons.length; i++) {
+                buttons[i].classList.remove('active');
+            }
+            // Gewünschten Tab anzeigen
+            document.getElementById(tabId).classList.add('active');
+            event.currentTarget.classList.add('active');
+        }
+    </script>
 
 </body>
 </html>
