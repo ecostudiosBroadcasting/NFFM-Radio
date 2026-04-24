@@ -2,124 +2,151 @@
 <html lang="de">
 <head>
     <meta charset="UTF-8">
-    <title>NFFM Radio - Player</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NFFM - Wir haben Character</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: white;
-            color: black;
-            margin: 0;
-            padding: 0;
-            text-align: center;
+        :root {
+            --nffm-red: #d64545;
+            --nffm-blue: #004b7c;
+            --bg-light: #f4f4f4;
+            --white: #ffffff;
+            --text-dark: #333;
         }
 
-        /* TABS NAVIGATION */
-        .tabs {
-            display: flex;
-            background: #f1f1f1;
-            border-bottom: 1px solid #ccc;
-        }
+        body { margin: 0; font-family: 'Arial', sans-serif; background-color: var(--bg-light); color: var(--text-dark); }
 
-        .tab-button {
-            flex: 1;
-            padding: 15px;
-            cursor: pointer;
-            border: none;
-            background: none;
-            font-weight: bold;
-            text-transform: uppercase;
-            font-size: 12px;
-        }
+        /* HEADER */
+        header { background: var(--white); padding: 15px 20px; display: flex; align-items: center; border-bottom: 1px solid #ddd; }
+        .header-logo { height: 50px; margin-right: 20px; }
+        .station-name { font-size: 24px; font-weight: bold; color: var(--nffm-blue); text-transform: uppercase; }
 
-        .tab-button:hover { background: #e0e0e0; }
-        .tab-button.active { background: white; border-bottom: 2px solid black; }
+        /* NAVIGATION */
+        .nav-bar { background: var(--white); border-bottom: 3px solid var(--nffm-red); display: flex; padding: 0 20px; position: sticky; top: 0; z-index: 100; }
+        .nav-tab { padding: 15px 20px; text-decoration: none; color: var(--text-dark); font-weight: bold; font-size: 14px; text-transform: uppercase; cursor: pointer; border: none; background: none; }
+        .nav-tab.active { border-bottom: 4px solid var(--nffm-red); color: var(--nffm-red); }
 
-        /* CONTENT BEREICHE */
-        .tab-content { display: none; padding: 20px; }
+        /* CONTENT */
+        .tab-content { display: none; padding: 20px; max-width: 1100px; margin: 0 auto; }
         .tab-content.active { display: block; }
 
-        /* PLAYER (Ohne Bild) */
-        video {
-            width: 100%;
-            background: black;
-            border-radius: 4px;
-        }
+        /* HERO & PLAY */
+        .hero-box { background: var(--white); box-shadow: 0 4px 10px rgba(0,0,0,0.1); margin-bottom: 20px; }
+        .hero-img-wrap { position: relative; height: 350px; background: #000; }
+        .hero-img-wrap img { width: 100%; height: 100%; object-fit: cover; opacity: 0.7; }
+        .play-btn { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 80px; height: 80px; background: var(--nffm-red); border-radius: 50%; border: 3px solid white; cursor: pointer; display: flex; justify-content: center; align-items: center; }
+        .play-icon { width: 0; height: 0; border-top: 15px solid transparent; border-bottom: 15px solid transparent; border-left: 25px solid white; margin-left: 5px; }
+        .info-pane { padding: 20px; background: var(--nffm-blue); color: white; }
 
-        /* SENDEPLAN TABELLE */
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 10px;
-            font-size: 14px;
+        /* LIVE VERKEHR LISTE */
+        #traffic-list { list-style: none; padding: 0; }
+        .traffic-entry { 
+            background: white; 
+            padding: 15px; 
+            margin-bottom: 10px; 
+            border-left: 6px solid var(--nffm-red); 
+            border-radius: 4px; 
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            animation: fadeIn 0.5s ease;
         }
+        .traffic-entry strong { color: var(--nffm-blue); display: block; margin-bottom: 5px; }
+        .traffic-time { font-size: 11px; color: #888; display: block; margin-top: 10px; }
 
-        th, td {
-            border: 1px solid #eee;
-            padding: 10px;
-            text-align: left;
-        }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-        th { background: #fafafa; }
-
-        /* VERKEHR (Fix) */
-        iframe {
-            width: 100%;
-            height: 300px;
-            border: 1px solid #ccc;
-        }
+        .schedule-card { background: white; padding: 20px; border-radius: 8px; margin-bottom: 15px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
     </style>
 </head>
 <body>
 
-    <div class="tabs">
-        <button class="tab-button active" onclick="openTab('player')">Player</button>
-        <button class="tab-button" onclick="openTab('plan')">Sendeplan</button>
-        <button class="tab-button" onclick="openTab('verkehr')">Verkehr</button>
+<header>
+    <img src="Herunterladen.png" alt="NFFM" class="header-logo">
+    <div class="station-name">NFFM Radio</div>
+</header>
+
+<div class="nav-bar">
+    <button class="nav-tab active" onclick="showTab('home')">Home</button>
+    <button class="nav-tab" onclick="showTab('programm')">Programm</button>
+    <button class="nav-tab" onclick="showTab('verkehr')">Verkehr</button>
+    <button class="nav-tab" onclick="showTab('team')">Team</button>
+</div>
+
+<div class="container">
+    <div id="home" class="tab-content active">
+        <div class="hero-box">
+            <div class="hero-img-wrap">
+                <img src="Herunterladen.png">
+                <div class="play-btn" onclick="openPlayer()"><div class="play-icon"></div></div>
+            </div>
+            <div class="info-pane">
+                <h2>NFFM - Wir haben Character</h2>
+                <p>Echte Musik, echte Typen. Jetzt Live!</p>
+            </div>
+        </div>
     </div>
 
-    <div id="player" class="tab-content active">
-        <h3>NFFM LIVE</h3>
-        <video controls>
-            <source src="stream-url-hier.mp4" type="video/mp4">
-        </video>
-        <p>Du hörst: Nachrichten für fast morgen</p>
-    </div>
-
-    <div id="plan" class="tab-content">
-        <h3>Sendeplan</h3>
-        <table>
-            <tr><th>Tag</th><th>Programm</th><th>Zeit</th></tr>
-            <tr><td>Mo</td><td>NFFM News</td><td>18:00</td></tr>
-            <tr><td>Di</td><td>Eco Talk</td><td>19:00</td></tr>
-            <tr><td>Mi</td><td>Tech-Update</td><td>18:00</td></tr>
-            <tr><td>Do</td><td>Live Regie</td><td>20:00</td></tr>
-            <tr><td>Fr</td><td>Weekend</td><td>17:00</td></tr>
-            <tr><td>Sa/So</td><td>Best of</td><td>12:00</td></tr>
-        </table>
+    <div id="programm" class="tab-content">
+        <h2>Sendeplan</h2>
+        <div class="schedule-card"><strong>06:00 - 10:00:</strong> NFFM Morningshow</div>
+        <div class="schedule-card"><strong>18:00 - 22:00:</strong> NFFM Abendsschau</div>
+        <div class="schedule-card" style="background: #333; color: white;"><strong>Wochenende:</strong> NFFM Rock Weekend</div>
     </div>
 
     <div id="verkehr" class="tab-content">
-        <h3>Verkehrslage</h3>
-        <iframe src="https://www.openstreetmap.org/export/embed.html?bbox=6.90%2C49.18%2C7.10%2C49.28&layer=mapnik"></iframe>
+        <h2 style="color: var(--nffm-red);">Live Verkehrsservice</h2>
+        <p>Aktuelle Meldungen für das Saarland (wird automatisch aktualisiert):</p>
+        <div id="traffic-list">
+            <p>Lade aktuelle Meldungen...</p>
+        </div>
     </div>
 
-    <script>
-        function openTab(tabId) {
-            // Alle Inhalte verstecken
-            var contents = document.getElementsByClassName('tab-content');
-            for (var i = 0; i < contents.length; i++) {
-                contents[i].classList.remove('active');
+    <div id="team" class="tab-content">
+        <h2>Das Team</h2>
+        <p>Bald siehst du hier unsere Moderatoren.</p>
+    </div>
+</div>
+
+<script>
+    function showTab(tabId) {
+        document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+        document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+        document.getElementById(tabId).classList.add('active');
+        event.currentTarget.classList.add('active');
+
+        if(tabId === 'verkehr') { loadTraffic(); }
+    }
+
+    function openPlayer() {
+        window.open("http://37.157.242.104:34275/stream", "NFFM_Player", "width=450,height=200");
+    }
+
+    // LIVE VERKEHR LADEN (RSS zu JSON)
+    async function loadTraffic() {
+        const list = document.getElementById('traffic-list');
+        // Wir nutzen einen RSS-Feed-Konverter, um echte Daten vom Saarland zu bekommen
+        const rssUrl = encodeURIComponent('https://www.verkehrsinformation.de/rss/saarland.xml');
+        const apiUrl = `https://api.rss2json.com/v1/api.json?rss_url=${rssUrl}`;
+
+        try {
+            const response = await fetch(apiUrl);
+            const data = await response.json();
+            
+            if (data.items.length === 0) {
+                list.innerHTML = "<div class='traffic-entry'>Aktuell keine Staumeldungen für das Saarland. Freie Fahrt!</div>";
+                return;
             }
-            // Alle Buttons deaktivieren
-            var buttons = document.getElementsByClassName('tab-button');
-            for (var i = 0; i < buttons.length; i++) {
-                buttons[i].classList.remove('active');
-            }
-            // Gewünschten Tab anzeigen
-            document.getElementById(tabId).classList.add('active');
-            event.currentTarget.classList.add('active');
+
+            list.innerHTML = "";
+            data.items.forEach(item => {
+                const entry = document.createElement('div');
+                entry.className = 'traffic-entry';
+                entry.innerHTML = `<strong>Meldung:</strong> ${item.title} <br> ${item.description} <span class='traffic-time'>${item.pubDate}</span>`;
+                list.appendChild(entry);
+            });
+        } catch (e) {
+            list.innerHTML = "<p>Verkehrsdaten konnten nicht geladen werden. Bitte versuche es später erneut.</p>";
         }
-    </script>
+    }
+</script>
 
 </body>
 </html>
