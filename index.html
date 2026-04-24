@@ -8,6 +8,7 @@
         :root {
             --nffm-red: #d64545;
             --nffm-blue: #004b7c;
+            --nffm-orange: #ff8c00;
             --bg-light: #f4f4f4;
             --white: #ffffff;
             --text-dark: #333;
@@ -33,32 +34,27 @@
         .hero-box { background: var(--white); box-shadow: 0 4px 10px rgba(0,0,0,0.1); margin-bottom: 20px; }
         .hero-img-wrap { position: relative; height: 350px; background: #000; }
         .hero-img-wrap img { display: none; } 
-        
         .play-btn { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 80px; height: 80px; background: var(--nffm-red); border-radius: 50%; border: 3px solid white; cursor: pointer; display: flex; justify-content: center; align-items: center; }
         .play-icon { width: 0; height: 0; border-top: 15px solid transparent; border-bottom: 15px solid transparent; border-left: 25px solid white; margin-left: 5px; }
         .info-pane { padding: 20px; background: var(--nffm-blue); color: white; }
 
-        /* SENDEPLAN TABELLE */
+        /* SENDEPLAN */
         .schedule-table { width: 100%; border-collapse: collapse; background: white; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
         .schedule-table th, .schedule-table td { padding: 15px; text-align: left; border-bottom: 1px solid #eee; }
-        .schedule-table th { background: #f9f9f9; color: var(--nffm-blue); font-size: 12px; text-transform: uppercase; }
+        .schedule-table th { background: #f9f9f9; color: var(--nffm-blue); font-size: 12px; }
         .day-col { font-weight: bold; color: var(--nffm-red); width: 150px; }
 
-        /* LIVE VERKEHR LISTE */
-        #traffic-list { list-style: none; padding: 0; }
+        /* VERKEHR & BLITZER */
         .traffic-entry { 
-            background: white; 
-            padding: 15px; 
-            margin-bottom: 10px; 
-            border-left: 6px solid var(--nffm-red); 
-            border-radius: 4px; 
-            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-            animation: fadeIn 0.5s ease;
+            background: white; padding: 15px; margin-bottom: 10px; 
+            border-left: 6px solid var(--nffm-red); border-radius: 4px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); 
         }
+        .entry-accident { border-left-color: black; background: #fff5f5; }
+        .entry-blitzer { border-left-color: var(--nffm-orange); background: #fffdf0; }
+        
         .traffic-entry strong { color: var(--nffm-blue); display: block; margin-bottom: 5px; }
-        .traffic-time { font-size: 11px; color: #888; display: block; margin-top: 10px; }
-
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .tag-unfall { color: white; background: black; padding: 2px 6px; border-radius: 3px; font-size: 10px; margin-right: 5px; }
+        .tag-blitzer { color: white; background: var(--nffm-orange); padding: 2px 6px; border-radius: 3px; font-size: 10px; margin-right: 5px; }
     </style>
 </head>
 <body>
@@ -71,16 +67,14 @@
 <div class="nav-bar">
     <button class="nav-tab active" onclick="showTab('home')">Home</button>
     <button class="nav-tab" onclick="showTab('programm')">Programm</button>
-    <button class="nav-tab" onclick="showTab('verkehr')">Verkehr</button>
+    <button class="nav-tab" onclick="showTab('verkehr')">Verkehr & Blitzer</button>
     <button class="nav-tab" onclick="showTab('team')">Team</button>
 </div>
 
 <div class="container">
     <div id="home" class="tab-content active">
         <div class="hero-box">
-            <div class="hero-img-wrap">
-                <div class="play-btn" onclick="openPlayer()"><div class="play-icon"></div></div>
-            </div>
+            <div class="hero-img-wrap"><div class="play-btn" onclick="openPlayer()"><div class="play-icon"></div></div></div>
             <div class="info-pane">
                 <h2>NFFM - Wir haben Character</h2>
                 <p>Echte Musik, echte Typen. Jetzt Live!</p>
@@ -91,49 +85,27 @@
     <div id="programm" class="tab-content">
         <h2>Sendeplan</h2>
         <table class="schedule-table">
-            <thead>
-                <tr>
-                    <th>Zeitraum</th>
-                    <th>Sendung</th>
-                    <th>Status</th>
-                </tr>
-            </thead>
+            <thead><tr><th>Zeitraum</th><th>Sendung</th><th>Status</th></tr></thead>
             <tbody>
-                <tr>
-                    <td>00:00 - 11:30</td>
-                    <td>NFFM Nachtexpress</td>
-                    <td style="color: #888;">OFFLINE</td>
-                </tr>
-                <tr style="background: rgba(214, 69, 69, 0.05);">
-                    <td class="day-col">11:30 - 15:00</td>
-                    <td><strong>NFFM Morningshow</strong></td>
-                    <td style="color: var(--nffm-red); font-weight: bold;">LIVE</td>
-                </tr>
-                <tr style="background: rgba(0, 75, 124, 0.05);">
-                    <td class="day-col">18:00 - 21:00</td>
-                    <td><strong>NFFM Abendschau</strong></td>
-                    <td style="color: var(--nffm-blue); font-weight: bold;">LIVE</td>
-                </tr>
-                <tr style="border-top: 3px solid var(--nffm-blue);">
-                    <td class="day-col">SA & SO</td>
-                    <td><strong>NFFM Rock Weekend</strong></td>
-                    <td style="color: var(--nffm-blue); font-weight: bold;">SPECIAL</td>
-                </tr>
-                <tr>
-                    <td>21:00 - 00:00</td>
-                    <td>NFFM Late Night</td>
-                    <td style="color: #888;">OFFLINE</td>
-                </tr>
+                <tr><td>00:00 - 11:30</td><td>NFFM Nachtexpress</td><td>OFFLINE</td></tr>
+                <tr style="background: rgba(214, 69, 69, 0.05);"><td class="day-col">11:30 - 15:00</td><td><strong>NFFM Morningshow</strong></td><td style="color: var(--nffm-red); font-weight: bold;">LIVE</td></tr>
+                <tr style="background: rgba(0, 75, 124, 0.05);"><td class="day-col">18:00 - 21:00</td><td><strong>NFFM Abendschau</strong></td><td style="color: var(--nffm-blue); font-weight: bold;">LIVE</td></tr>
+                <tr style="border-top: 2px solid var(--nffm-blue);"><td class="day-col">SA & SO</td><td><strong>NFFM Rock Weekend</strong></td><td style="color: var(--nffm-blue); font-weight: bold;">SPECIAL</td></tr>
             </tbody>
         </table>
     </div>
 
     <div id="verkehr" class="tab-content">
-        <h2 style="color: var(--nffm-red);">Live Verkehrsservice</h2>
-        <p>Aktuelle Meldungen für das Saarland:</p>
-        <div id="traffic-list">
-            <p>Lade aktuelle Meldungen...</p>
+        <h2 style="color: var(--nffm-red);">NFFM Traffic Center</h2>
+        <p>Achtung: Unfälle und Blitzer-Meldungen aus der Redaktion:</p>
+        
+        <div class="traffic-entry entry-blitzer">
+            <strong><span class="tag-blitzer">BLITZER</span> A620 Richtung Saarbrücken</strong>
+            Höhe Bismarckbrücke wird aktuell scharf geschossen. Fuß vom Gas!
+            <br><small>Gemeldet: Gerade eben über NFFM Hotline</small>
         </div>
+
+        <div id="traffic-list"><p>Lade aktuelle Verkehrslage...</p></div>
     </div>
 
     <div id="team" class="tab-content">
@@ -148,7 +120,6 @@
         document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
         document.getElementById(tabId).classList.add('active');
         if(event) event.currentTarget.classList.add('active');
-
         if(tabId === 'verkehr') { loadTraffic(); }
     }
 
@@ -164,26 +135,27 @@
         try {
             const response = await fetch(apiUrl);
             const data = await response.json();
+            list.innerHTML = "";
             
             if (!data.items || data.items.length === 0) {
-                list.innerHTML = `
-                    <div class='traffic-entry' style="border-left-color: #28a745;">
-                        <strong>Status: Alles im grünen Bereich</strong>
-                        Aktuell keine Staumeldungen für das Saarland bekannt oder die Straßen sind frei.
-                        <span class='traffic-time'>Letzter Check: ${new Date().toLocaleTimeString()} Uhr</span>
-                    </div>`;
+                list.innerHTML = "<div class='traffic-entry'>Aktuell keine weiteren Behinderungen gemeldet.</div>";
                 return;
             }
 
-            list.innerHTML = "";
             data.items.forEach(item => {
+                const isAccident = item.title.toLowerCase().includes("unfall") || item.description.toLowerCase().includes("unfall");
                 const entry = document.createElement('div');
-                entry.className = 'traffic-entry';
-                entry.innerHTML = `<strong>Meldung:</strong> ${item.title} <br> ${item.description} <span class='traffic-time'>${item.pubDate}</span>`;
+                entry.className = 'traffic-entry' + (isAccident ? ' entry-accident' : '');
+                
+                entry.innerHTML = `
+                    <strong>${isAccident ? '<span class="tag-unfall">GEFAHR</span>' : ''} ${item.title}</strong>
+                    ${item.description}
+                    <br><small>${item.pubDate}</small>
+                `;
                 list.appendChild(entry);
             });
         } catch (e) {
-            list.innerHTML = "<div class='traffic-entry'>Daten konnten nicht geladen werden. Bitte manuell prüfen.</div>";
+            list.innerHTML = "<p>Fehler beim Laden der Verkehrsdaten.</p>";
         }
     }
 </script>
