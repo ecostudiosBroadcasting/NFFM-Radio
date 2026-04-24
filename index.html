@@ -16,36 +16,23 @@
 
         body { margin: 0; font-family: 'Arial', sans-serif; background-color: var(--bg-light); color: var(--text-dark); }
 
-        /* HEADER */
         header { background: var(--white); padding: 15px 20px; display: flex; align-items: center; border-bottom: 1px solid #ddd; }
         .header-logo { height: 50px; margin-right: 20px; }
         .station-name { font-size: 24px; font-weight: bold; color: var(--nffm-blue); text-transform: uppercase; }
 
-        /* NAVIGATION */
         .nav-bar { background: var(--white); border-bottom: 3px solid var(--nffm-red); display: flex; padding: 0 20px; position: sticky; top: 0; z-index: 100; }
         .nav-tab { padding: 15px 20px; text-decoration: none; color: var(--text-dark); font-weight: bold; font-size: 14px; text-transform: uppercase; cursor: pointer; border: none; background: none; }
         .nav-tab.active { border-bottom: 4px solid var(--nffm-red); color: var(--nffm-red); }
 
-        /* CONTENT */
         .tab-content { display: none; padding: 20px; max-width: 1100px; margin: 0 auto; }
         .tab-content.active { display: block; }
 
-        /* HERO & PLAY */
         .hero-box { background: var(--white); box-shadow: 0 4px 10px rgba(0,0,0,0.1); margin-bottom: 20px; border-radius: 4px; overflow: hidden; }
-        .hero-img-wrap { position: relative; height: 350px; background: #222; }
-        .play-btn { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 80px; height: 80px; background: var(--nffm-red); border-radius: 50%; border: 3px solid white; cursor: pointer; display: flex; justify-content: center; align-items: center; }
+        .hero-img-wrap { position: relative; height: 300px; background: #222; display: flex; align-items: center; justify-content: center; color: white; }
+        .play-btn { width: 80px; height: 80px; background: var(--nffm-red); border-radius: 50%; border: 3px solid white; cursor: pointer; display: flex; justify-content: center; align-items: center; }
         .play-icon { width: 0; height: 0; border-top: 15px solid transparent; border-bottom: 15px solid transparent; border-left: 25px solid white; margin-left: 5px; }
         .info-pane { padding: 20px; background: var(--nffm-blue); color: white; }
 
-        /* ÜBER UNS */
-        .about-section { padding: 30px; background: white; margin-top: 20px; border-radius: 4px; border-left: 5px solid var(--nffm-blue); }
-
-        /* TABELLE */
-        .schedule-table { width: 100%; border-collapse: collapse; background: white; border-radius: 8px; overflow: hidden; }
-        .schedule-table td, .schedule-table th { padding: 15px; text-align: left; border-bottom: 1px solid #eee; }
-        .day-col { font-weight: bold; color: var(--nffm-red); width: 150px; }
-
-        /* VERKEHRSEINTRÄGE */
         .traffic-entry { 
             background: white; padding: 18px; margin-bottom: 12px; 
             border-left: 6px solid #ccc; border-radius: 4px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); 
@@ -82,45 +69,30 @@
             <div class="hero-img-wrap"><div class="play-btn" onclick="openPlayer()"><div class="play-icon"></div></div></div>
             <div class="info-pane">
                 <h2>NFFM - Wir haben Character</h2>
-                <p>Echte Musik, echte Typen. Der Sound von morgen.</p>
+                <p>Jetzt Live: Echte Musik für das Saarland.</p>
             </div>
-        </div>
-        <div class="about-section">
-            <h2>Über uns</h2>
-            <p>NFFM ist aktuell im Aufbau. Wir arbeiten am vollen Programm mit Moderation und den „Nachrichten für fast morgen“.</p>
-            <p>Kontakt: <a href="mailto:ecostudiobroadcasting.contact@gmail.com" style="color: var(--nffm-red);">ecostudiobroadcasting.contact@gmail.com</a></p>
         </div>
     </div>
 
     <div id="programm" class="tab-content">
         <h2>Sendeplan</h2>
-        <table class="schedule-table">
-            <thead><tr><th>Zeitraum</th><th>Sendung</th><th>Status</th></tr></thead>
-            <tbody>
-                <tr><td>00:00 - 11:30</td><td>NFFM Nachtexpress</td><td>OFFLINE</td></tr>
-                <tr style="background: rgba(214, 69, 69, 0.05);"><td class="day-col">11:30 - 15:00</td><td><strong>NFFM Morningshow</strong></td><td>BALD LIVE</td></tr>
-                <tr style="background: rgba(0, 75, 124, 0.05);"><td class="day-col">18:00 - 21:00</td><td><strong>NFFM Abendschau</strong></td><td>BALD LIVE</td></tr>
-                <tr style="border-top: 2px solid var(--nffm-blue);"><td class="day-col">SA & SO</td><td><strong>NFFM Rock Weekend</strong></td><td>SPECIAL</td></tr>
-            </tbody>
-        </table>
+        <p>In Vorbereitung: NFFM Morningshow & Abendschau.</p>
     </div>
 
     <div id="verkehr" class="tab-content">
         <h2 style="color: var(--nffm-red);">NFFM Verkehrszentrum</h2>
-        <p>Live-Abfrage der Region Saarland:</p>
-        <div id="traffic-list"><p>System wird aktualisiert...</p></div>
-        <p style="font-size: 11px; color: #999; margin-top: 20px;">Datenabgleich mit stau.info & offiziellen Kanälen. <a href="https://stau.info/region/saarland" target="_blank" style="color: var(--nffm-blue);">Hier zur Direkt-Karte</a>.</p>
+        <p>Live-Daten direkt von verkehrsinformation.de:</p>
+        <div id="traffic-list"><p>Daten werden geladen...</p></div>
+        <button onclick="loadTraffic()" style="margin-top:10px; padding:8px 15px; cursor:pointer;">Aktualisieren</button>
     </div>
 
     <div id="team" class="tab-content">
         <h2>Kontakt</h2>
-        <div class="hero-box" style="padding: 20px;">
-            <strong>E-Mail:</strong> <a href="mailto:ecostudiobroadcasting.contact@gmail.com" style="color: var(--nffm-red);">ecostudiobroadcasting.contact@gmail.com</a>
-        </div>
+        <p>E-Mail: <a href="mailto:ecostudiobroadcasting.contact@gmail.com">ecostudiobroadcasting.contact@gmail.com</a></p>
     </div>
 </div>
 
-<footer>&copy; 2026 NFFM Media | Wir haben Character.</footer>
+<footer>&copy; 2026 NFFM Media</footer>
 
 <script>
     function showTab(tabId) {
@@ -137,27 +109,38 @@
 
     async function loadTraffic() {
         const list = document.getElementById('traffic-list');
-        // Wir nutzen hier einen Backup-Aggregator, falls der Haupt-RSS hakt
-        const rssUrl = encodeURIComponent('https://www.verkehrsinformation.de/rss/saarland.xml');
-        const apiUrl = `https://api.rss2json.com/v1/api.json?rss_url=${rssUrl}&t=${new Date().getTime()}`; // Cache-Breaker hinzugefügt
+        list.innerHTML = "<p>System scannt das Saarland...</p>";
+        
+        // Wir nutzen den RSS-Pfad, da dieser für Skripte lesbar ist
+        const targetUrl = 'https://www.verkehrsinformation.de/rss/saarland.xml';
+        const proxyUrl = 'https://api.allorigins.win/get?url=' + encodeURIComponent(targetUrl);
 
         try {
-            const response = await fetch(apiUrl);
+            const response = await fetch(proxyUrl);
             const data = await response.json();
+            
+            // XML parsen
+            const parser = new DOMParser();
+            const xmlDoc = parser.parseFromString(data.contents, "text/xml");
+            const items = xmlDoc.querySelectorAll("item");
+
             list.innerHTML = "";
             
-            if (!data.items || data.items.length === 0) {
-                list.innerHTML = "<div class='traffic-entry' style='border-left-color: #28a745;'><strong>Freie Fahrt im Saarland</strong>Aktuell keine akuten Behinderungen im System.</div>";
+            if (items.length === 0) {
+                list.innerHTML = "<div class='traffic-entry' style='border-left-color: #28a745;'><strong>Alles frei!</strong> Aktuell keine Meldungen für das Saarland vorhanden.</div>";
                 return;
             }
 
-            data.items.forEach(item => {
-                const text = (item.title + " " + item.description).toLowerCase();
+            items.forEach(item => {
+                const title = item.querySelector("title").textContent;
+                const desc = item.querySelector("description").textContent;
+                const text = (title + " " + desc).toLowerCase();
+                
                 let typeClass = ""; let badge = "";
 
-                if (text.includes("blitzer") || text.includes("radar")) {
+                if (text.includes("blitzer") || text.includes("radar") || text.includes("kontrolle")) {
                     typeClass = "type-blitzer"; badge = "<span class='badge bg-orange'>Blitzer</span>";
-                } else if (text.includes("unfall") || text.includes("gefahr")) {
+                } else if (text.includes("unfall") || text.includes("gefahr") || text.includes("gegenstand")) {
                     typeClass = "type-gefahr"; badge = "<span class='badge bg-black'>Gefahr</span>";
                 } else {
                     typeClass = "type-stau"; badge = "<span class='badge bg-red'>Stau</span>";
@@ -165,11 +148,12 @@
 
                 const entry = document.createElement('div');
                 entry.className = `traffic-entry ${typeClass}`;
-                entry.innerHTML = `<strong>${badge} ${item.title}</strong>${item.description}<br><small style="color:#999;">Stand: ${item.pubDate}</small>`;
+                entry.innerHTML = `<strong>${badge} ${title}</strong>${desc}`;
                 list.appendChild(entry);
             });
         } catch (e) {
-            list.innerHTML = "<p>Fehler beim Datenabruf. <a href='#' onclick='loadTraffic()'>Erneut versuchen</a></p>";
+            console.error(e);
+            list.innerHTML = "<p>Fehler beim Abruf der Daten von verkehrsinformation.de. Bitte versuche es in ein paar Minuten erneut.</p>";
         }
     }
 </script>
