@@ -15,34 +15,38 @@
 
         body { margin: 0; font-family: 'Arial', sans-serif; background-color: var(--bg-light); color: var(--text-dark); }
 
+        /* HEADER */
         header { background: var(--white); padding: 15px 20px; display: flex; align-items: center; border-bottom: 1px solid #ddd; }
         .header-logo { height: 50px; margin-right: 20px; }
         .station-name { font-size: 24px; font-weight: bold; color: var(--nffm-blue); text-transform: uppercase; }
 
+        /* NAVIGATION */
         .nav-bar { background: var(--white); border-bottom: 3px solid var(--nffm-red); display: flex; padding: 0 20px; position: sticky; top: 0; z-index: 100; }
         .nav-tab { padding: 15px 20px; text-decoration: none; color: var(--text-dark); font-weight: bold; font-size: 14px; text-transform: uppercase; cursor: pointer; border: none; background: none; }
         .nav-tab.active { border-bottom: 4px solid var(--nffm-red); color: var(--nffm-red); }
 
+        /* CONTENT */
         .tab-content { display: none; padding: 20px; max-width: 1100px; margin: 0 auto; }
         .tab-content.active { display: block; }
 
+        /* HERO & PLAY */
         .hero-box { background: var(--white); box-shadow: 0 4px 10px rgba(0,0,0,0.1); margin-bottom: 20px; border-radius: 4px; overflow: hidden; }
-        .hero-img-wrap { position: relative; height: 300px; background: #222; display: flex; align-items: center; justify-content: center; }
-        
-        .play-btn { width: 80px; height: 80px; background: var(--nffm-red); border-radius: 50%; border: 3px solid white; cursor: pointer; display: flex; justify-content: center; align-items: center; transition: 0.2s; }
-        .play-btn:hover { transform: scale(1.1); }
+        .hero-img-wrap { position: relative; height: 300px; background: #222 url('https://images.unsplash.com/photo-1470225620780-dba8ba36b745?auto=format&fit=crop&q=80&w=1000') center/cover; }
+        .play-btn { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 80px; height: 80px; background: var(--nffm-red); border-radius: 50%; border: 3px solid white; cursor: pointer; display: flex; justify-content: center; align-items: center; transition: 0.2s; }
+        .play-btn:hover { transform: translate(-50%, -50%) scale(1.1); }
         .play-icon { width: 0; height: 0; border-top: 15px solid transparent; border-bottom: 15px solid transparent; border-left: 25px solid white; margin-left: 5px; }
 
-        .about-section { padding: 30px; background: white; margin-top: 20px; border-radius: 4px; border-left: 5px solid var(--nffm-blue); box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
+        /* SECTIONS */
+        .section-white { padding: 30px; background: white; margin-top: 20px; border-radius: 4px; border-left: 5px solid var(--nffm-blue); box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
 
-        /* VERKEHRS-UPGRADE */
-        .traffic-grid { display: grid; grid-template-columns: 2fr 1fr; gap: 20px; margin-top: 20px; }
-        .map-container { background: #eee; height: 500px; border-radius: 8px; overflow: hidden; border: 1px solid #ddd; position: relative; }
-        .traffic-sidebar { display: flex; flex-direction: column; gap: 15px; }
-        .info-card { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
-        .btn-live { display: block; width: 100%; padding: 12px; background: var(--nffm-red); color: white; text-align: center; text-decoration: none; border-radius: 4px; font-weight: bold; margin-top: 10px; }
-        
-        @media (max-width: 800px) { .traffic-grid { grid-template-columns: 1fr; } }
+        /* SENDEPLAN TABELLE */
+        .schedule-table { width: 100%; border-collapse: collapse; background: white; margin-top: 10px; }
+        .schedule-table th, .schedule-table td { padding: 15px; text-align: left; border-bottom: 1px solid #eee; }
+        .schedule-table th { background: #f9f9f9; color: var(--nffm-blue); text-transform: uppercase; font-size: 12px; }
+        .time-col { font-weight: bold; color: var(--nffm-red); width: 150px; }
+
+        /* ECHTE VERKEHRSKARTE */
+        .map-wrapper { height: 600px; width: 100%; border-radius: 8px; overflow: hidden; border: 1px solid #ddd; margin-top: 20px; }
 
         footer { text-align: center; padding: 40px; color: #888; font-size: 12px; border-top: 1px solid #ddd; margin-top: 50px; }
     </style>
@@ -67,56 +71,49 @@
             <div class="hero-img-wrap"><div class="play-btn" onclick="openPlayer()"><div class="play-icon"></div></div></div>
             <div style="padding:20px; background: var(--nffm-blue); color:white;">
                 <h2>NFFM - Wir haben Character</h2>
-                <p>Echte Musik, echte Typen. Der Sound vom Saarland.</p>
+                <p>Echte Musik, echte Typen. Das Sound von morgen.</p>
             </div>
         </div>
 
-        <div class="about-section">
+        <div class="section-white">
             <h2>Über uns</h2>
-            <p>NFFM ist nicht einfach nur Radio – es ist eine Ansage. Wir senden aus dem Herzen des Saarlandes für alle, die genug von weichgespültem Einheitsbrei haben.</p>
-            <p>Aktuell hörst du unseren 24/7 Musik-Stream. Wir bauen gerade das Studio um, damit wir euch bald mit Live-Moderation und den „Nachrichten für fast morgen“ wecken können.</p>
-            <p><strong>Kontakt:</strong> <a href="mailto:ecostudiobroadcasting.contact@gmail.com" style="color: var(--nffm-red);">ecostudiobroadcasting.contact@gmail.com</a></p>
+            <p>NFFM befindet sich aktuell im Aufbau. Wir arbeiten unter Hochdruck daran, euch bald das volle Programm mit Live-Moderation und den „Nachrichten für fast morgen“ zu präsentieren.</p>
+            <p>Aktuell hört ihr unseren Non-Stop Musik-Stream – handverlesener Sound mit Charakter, direkt aus dem Saarland. Sobald unsere Redaktion den Betrieb aufnimmt, erfahrt ihr es hier zuerst.</p>
+            <p><strong>Kontakt & Feedback:</strong> <a href="mailto:ecostudiobroadcasting.contact@gmail.com" style="color: var(--nffm-red);">ecostudiobroadcasting.contact@gmail.com</a></p>
         </div>
     </div>
 
     <div id="programm" class="tab-content">
         <h2>Sendeplan</h2>
-        <div class="about-section">
-            <p><strong>NFFM Morningshow</strong> (Bald Live)</p>
-            <p><strong>NFFM Abendschau</strong> (Bald Live)</p>
-            <p><strong>NFFM Rock Weekend</strong> (Jeden Samstag & Sonntag)</p>
+        <div class="section-white" style="padding:0; overflow:hidden;">
+            <table class="schedule-table">
+                <thead>
+                    <tr><th>Zeitraum</th><th>Sendung</th><th>Status</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td class="time-col">00:00 - 11:30</td><td>NFFM Nachtexpress</td><td>OFFLINE</td></tr>
+                    <tr style="background: rgba(214, 69, 69, 0.05);"><td class="time-col">11:30 - 15:00</td><td><strong>NFFM Morningshow</strong></td><td style="color:var(--nffm-red); font-weight:bold;">BALD LIVE</td></tr>
+                    <tr style="background: rgba(0, 75, 124, 0.05);"><td class="time-col">18:00 - 21:00</td><td><strong>NFFM Abendschau</strong></td><td style="color:var(--nffm-blue); font-weight:bold;">BALD LIVE</td></tr>
+                    <tr><td class="time-col">SA & SO</td><td><strong>NFFM Rock Weekend</strong></td><td>SPECIAL</td></tr>
+                </tbody>
+            </table>
         </div>
     </div>
 
     <div id="verkehr" class="tab-content">
         <h2 style="color: var(--nffm-red);">NFFM Verkehrszentrum</h2>
-        <p>Echtzeit-Verkehrslage für das Saarland:</p>
-        
-        <div class="traffic-grid">
-            <div class="map-container">
-                <iframe width="100%" height="100%" frameborder="0" src="https://www.bing.com/maps/embed?h=500&w=700&cp=49.2333~6.9833&lvl=10&typ=d&sty=t&src=shell&FORM=MBEDV8" scrolling="no"></iframe>
-            </div>
-            
-            <div class="traffic-sidebar">
-                <div class="info-card">
-                    <h3>Blitzer & Staus</h3>
-                    <p>Holen Sie sich die aktuellsten Details direkt von unseren Partner-Daten:</p>
-                    <a href="https://stau.info/region/saarland" target="_blank" class="btn-live">Blitzer-Check Saarland</a>
-                    <a href="https://www.verkehrsinformation.de/saarland" target="_blank" class="btn-live" style="background:var(--nffm-blue);">Verkehrs-Details</a>
-                </div>
-                <div class="info-card" style="font-size: 0.9em; color: #666;">
-                    <strong>Character-Tipp:</strong><br>
-                    Fuß vom Gas, wenn's blitzt! Meldet uns neue Blitzer per Mail an die Redaktion.
-                </div>
-            </div>
+        <p>Live-Verkehrslage, Staus und Baustellen im Saarland (Echtzeit):</p>
+        <div class="map-wrapper">
+            <iframe width="100%" height="100%" frameborder="0" src="https://www.tomtom.com/en_gb/traffic-index/saarbrucken-traffic/" style="border:none;"></iframe>
         </div>
+        <p style="font-size:11px; margin-top:10px; color:#666;">Hinweis: Die Karte zeigt die aktuelle Auslastung und Behinderungen im Großraum Saarland.</p>
     </div>
 
     <div id="team" class="tab-content">
         <h2>Kontakt</h2>
-        <div class="about-section">
-            <strong>E-Mail Redaktion:</strong><br>
-            <a href="mailto:ecostudiobroadcasting.contact@gmail.com">ecostudiobroadcasting.contact@gmail.com</a>
+        <div class="section-white">
+            <p>Schreib uns eine Mail an die Redaktion:</p>
+            <strong>E-Mail:</strong> <a href="mailto:ecostudiobroadcasting.contact@gmail.com" style="color: var(--nffm-red);">ecostudiobroadcasting.contact@gmail.com</a>
         </div>
     </div>
 </div>
@@ -132,6 +129,7 @@
         document.getElementById(tabId).classList.add('active');
         if(event) event.currentTarget.classList.add('active');
     }
+
     function openPlayer() {
         window.open("http://37.157.242.104:34275/stream", "NFFM_Player", "width=450,height=200");
     }
